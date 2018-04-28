@@ -1,0 +1,6 @@
+[package]
+name = "fme"
+version = "0.1.0"
+authors = ["sasehash <s8sashal@stud.uni-saarland.de>"]
+
+[dependencies]
