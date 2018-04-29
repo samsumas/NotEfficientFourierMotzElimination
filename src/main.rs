@@ -27,32 +27,16 @@ fn main() {
 
     let mut x = generate_exercise_2(p);
 
-//    for i in 0..p
-//    {
-//        x = fme(x);
-//    }
-    x=fme(x);
+    for i in 0..p
+    {
+        x = fme(x);
+        println!("Iteration {} : {} vars and {} constraints", i, x.variables(), x.constraints());
+    }
 
     for rows in x.A
     {
         println!("{:?}", rows);
     }
-}
-
-fn generateAllPossibleSigns() -> Vec<(i64, i64, i64)> {
-    let mut ret :Vec<(i64, i64, i64)> = Vec::new();
-    let values = vec! [-1,1];
-    for i in values.iter()
-    {
-        for j in values.iter()
-        {
-            for k in values.iter()
-            {
-                ret.push((*i,*j,*k));
-            }
-        }
-    }
-    ret
 }
 
 fn generate_exercise_2(p: usize) -> Polyhedra {
@@ -117,8 +101,7 @@ fn gen_polyhedra_from_new_constraints(p :Polyhedra, pos:Vec<usize>, zero:Vec<usi
         for k in neg.iter()
         {
             let mut new_constraint :Vec<i64> = Vec::new();
-            let variables = p.variables();
-            for var in 0..variables-1 {
+            for var in 0..p.variables()-1 {
                 //println!("access p.a[{}][{}] and p.a[{}][{}]", var, *k, var, i);
                 new_constraint.push(p.A[*k][var] + p.A[i][var]);
             }
@@ -133,7 +116,7 @@ fn gen_polyhedra_from_new_constraints(p :Polyhedra, pos:Vec<usize>, zero:Vec<usi
         let mut row = p.A[z].clone();
         row.pop();
         new_a.push(row);
-        new_b.push(p.b[z].clone());
+        new_b.push(p.b[z]);
     }
 
     Polyhedra{A:new_a, b:new_b, c:None}
